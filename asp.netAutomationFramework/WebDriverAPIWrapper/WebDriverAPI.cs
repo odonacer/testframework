@@ -3,21 +3,18 @@ using OpenQA.Selenium.Chrome;
 
 namespace asp.netAutomationFramework.WebDriverAPIWrapper
 {
-    class WebDriverAPI
-    {
-        public WebDriverAPI()
+    public  class WebDriverAPI
+    {        
+        private IWebDriver driver;
+        public WebDriverAPI(IWebDriver driver)
         {
-                
+            this.driver = driver;
         }
 
-        public WebDriverAPI(IWebDriver driver)
-            { this.driver = driver; }
-        private IWebDriver driver;
-        public IWebDriver SetDriver()
-        { return driver; }
-        public void StartChromeWebBrowser()
+        public IWebDriver StartChromeDriver()
         {
             driver = new ChromeDriver();
+            return driver;
         }
 
         public void QuitWebBrowser()
@@ -25,29 +22,21 @@ namespace asp.netAutomationFramework.WebDriverAPIWrapper
             driver.Quit();
         }
 
-        public void NavigateByLinkElement(By element)
+        public void ClickOnElement(By element)
         {
             driver.FindElement(element).Click();
         }
 
-        public void NavigateByURL(string url)
+        public void NavigateToURL(string url)
         {
             driver.Navigate().GoToUrl(url);
         }
 
-        
-        public IWebElement FindElement(By element)
+        public void NavigateByLink(By link)
         {
-            var foundElement = driver.FindElement(element);
-            return foundElement;
+            driver.FindElement(link).Click();
         }
 
-        public void ClickOnElement(IWebElement element)
-        {
-            element.Click();
-        }
-        
-       
-        }
     }
+} 
 

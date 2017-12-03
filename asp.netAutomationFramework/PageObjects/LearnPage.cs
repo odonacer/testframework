@@ -2,10 +2,13 @@
 
 namespace asp.netAutomationFramework.PageObjects
 {
-    class LearnPage
+    class LearnPage : BasePage
     {
-        public LearnPage(IWebDriver driver)
-        { this.driver = driver; }
         private IWebDriver driver;
+        public LearnPage(IWebDriver driver) :base(driver)
+        {
+            this.driver = driver;
+        }
+        
     }
 }

@@ -1,22 +1,19 @@
 ﻿using OpenQA.Selenium;
 using NUnit.Framework;
 using asp.netAutomationFramework.WebDriverAPIWrapper;
+using OpenQA.Selenium.Chrome;
 
 namespace asp.netAutomationFramework.PageObjects
 {
-    class BasePage
-    {
-        public BasePage()
-        {
-
-        }
-        public BasePage(IWebDriver driver)
-        { this.driver = driver; }
+    class BasePage : WebDriverAPI
+    {    
         private IWebDriver driver;
-        
+        public BasePage(IWebDriver driver):base(driver)
+        {
+            this.driver = driver;
+        }
 
-        WebDriverAPI baseAPI = new WebDriverAPI();
-
+        private string homePageURL = "http://asp.net";
 #region NavigationBarVars
         By homeLink = By.LinkText("Home");        
         By getStartedLink = By.LinkText("Get Started");
@@ -30,44 +27,52 @@ namespace asp.netAutomationFramework.PageObjects
         By searchResultsForText = By.Id("search-title");
         #endregion
 #region NavigationBarMethods
-        public void GoToHomePage()
+        public void OpenHomePageByURL()
         {
-            baseAPI.NavigateByLinkElement(homeLink);
+            NavigateToURL(homePageURL);
         }
-        public void GoToGetStartedPage()
+
+        public HomePage ClickOnHomeLink()
         {
-            baseAPI.NavigateByLinkElement(getStartedLink);
+            NavigateByLink(homeLink);
+            return new HomePage(driver);
+        }
+
+        public GetStartedPage ClickOnGetStartedLink()
+        {
+            NavigateByLink(getStartedLink);
+            return new GetStartedPage(driver);
         }
         public void GoToLearnLinkPage()
         {
-            baseAPI.NavigateByLinkElement(learnLink);
-             }
+            driver.FindElement(learnLink).Click();
+        }
         public void GoToHostingLinkPage()
         {
-            baseAPI.NavigateByLinkElement(hostingLink);
-             }
+            driver.FindElement(hostingLink).Click();
+        }
         public void GoToDownloadsPage()
         {
-            baseAPI.NavigateByLinkElement(downloadsLink);
-            }
-
-        public void GoToDownloads()
+            driver.FindElement(downloadsLink).Click();
+        }
+        public void CloseWebDriver()
         {
-            baseAPI.NavigateByLinkElement(downloadsLink);
-             }
-        //public HomePage OpenHomePage()
-        //{
-        //    baseAPI.NavigateByURL(basePageURL);
-        //    return new HomePage(driver);
-        //}
+            driver.Close();
+        }
+
+        public void VerifyTitle(string pageTitle)
+        {
+            Assert.AreEqual(driver.Title, pageTitle);
+        }
         #endregion
-#region SearchMethods
+
+        #region SearchMethods
         public BasePage PerformSearch(string searchKeyword)
         {
             driver.FindElement(searchField).SendKeys(searchKeyword);
             driver.FindElement(submitSearchRequest).Click();
             Assert.AreEqual(driver.FindElement(searchResultsForText), searchKeyword);
-            return new BasePage(driver);
+            return this;
         }
 #endregion
     }

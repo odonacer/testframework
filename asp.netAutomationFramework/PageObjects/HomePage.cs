@@ -1,39 +1,33 @@
 ﻿using OpenQA.Selenium;
 using asp.netAutomationFramework.WebDriverAPIWrapper;
 using OpenQA.Selenium.Chrome;
+using NUnit.Framework;
 
 namespace asp.netAutomationFramework.PageObjects
 {
     class HomePage : BasePage
     {
-        public HomePage()
-        {
-
-        }
-        public HomePage(IWebDriver driver): base(driver)
-       {  }
-
-        private IWebDriver driver; 
-
-        WebDriverAPI baseAPI = new WebDriverAPI();
+        private IWebDriver driver;
         private By downloadVS = By.XPath("//a[@data-product=\"Visual Studio\"]");
         private string basePageURL = "http://asp.net";
-        //IWebElement downloadVS;
-        public IWebElement DownloadVS
+        private string homePageTitle = "ASP.NET | The ASP.NET Site";
+
+        public HomePage(IWebDriver driver):base(driver)
         {
-            get { return baseAPI.FindElement(downloadVS); }
+            this.driver = driver;
         }
 
-
-
-        public void ClickOnDownloadVSLink()
-        {
-            baseAPI.ClickOnElement(DownloadVS);
-        }
         public HomePage OpenHomePage()
         {
-            baseAPI.NavigateByURL(basePageURL);
-            return  this;
+            OpenHomePageByURL();
+            return new HomePage(driver);
         }
+
+        public void VerifyHomePageTitle()
+        {
+            VerifyTitle(homePageTitle);
+        }
+
+       
     }
 }

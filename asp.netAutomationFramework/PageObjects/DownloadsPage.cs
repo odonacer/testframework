@@ -2,10 +2,13 @@
 
 namespace asp.netAutomationFramework.PageObjects
 {
-    class DownloadsPage
+    class DownloadsPage : BasePage
     {
-        public DownloadsPage(IWebDriver driver)
-        { this.driver = driver; }
         private IWebDriver driver;
+        public DownloadsPage(IWebDriver driver): base(driver)
+        {
+            this.driver = driver;
+        }
+        
     }
 }

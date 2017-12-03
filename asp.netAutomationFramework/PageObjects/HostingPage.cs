@@ -2,10 +2,13 @@
 
 namespace asp.netAutomationFramework.PageObjects
 {
-    class HostingPage
+    class HostingPage : BasePage
     {
-        public HostingPage(IWebDriver driver)
-        { this.driver = driver; }
         private IWebDriver driver;
+        public HostingPage(IWebDriver driver) : base(driver)
+        {
+            this.driver = driver;
+        }
+        
     }
 }

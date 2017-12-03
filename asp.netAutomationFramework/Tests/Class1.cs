@@ -8,25 +8,38 @@ namespace asp.netAutomationFramework
 {
     public class Class1
     {
-        
-        WebDriverAPI baseAPI = new WebDriverAPI();
-        private readonly string url = "http://asp.net";
-        HomePage homePage = new HomePage();
+        //HomePage homePage = new HomePage();
+        BasePage basePage;
+        IWebDriver driver;
+        WebDriverAPI webAPI;
 
         [SetUp]
         public void SetUp()
         {
-            baseAPI.StartChromeWebBrowser();
-             
+            //homePage.StartChromeDriver();
+           basePage = new BasePage(driver);
+            driver = basePage.StartChromeDriver();
             
-
+            
         }
 
         [Test]
         public void GoToHomePage()
         {
-            homePage.OpenHomePage();
-            //baseAPI.NavigateByURL(url);
+            basePage.OpenHomePageByURL();
+            HomePage homePage = new HomePage(driver);
+            homePage.VerifyHomePageTitle();
+            basePage.ClickOnGetStartedLink();
+            GetStartedPage getStartedPage = new GetStartedPage(driver);
+            getStartedPage.VerifyTitle();
+        }
+
+        [TearDown]
+        public void CloseWebdriver()
+        {
+            webAPI = new WebDriverAPI(driver);
+            webAPI.QuitWebBrowser();
+            //basePage.CloseWebDriver();
         }
     }
 }
