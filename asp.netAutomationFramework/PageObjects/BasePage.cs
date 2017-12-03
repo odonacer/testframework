@@ -25,8 +25,17 @@ namespace asp.netAutomationFramework.PageObjects
         By searchField = By.ClassName("search-input");
         By submitSearchRequest = By.ClassName("search-submit");
         By searchResultsForText = By.Id("search-title");
+        By signUpLink = By.ClassName("nav-user logged-out");
+        By joinMenuItem = By.XPath("//a[text()=\"Join\"]");
+        private By usernameField = By.Id("Username");
+        private By passwordField = By.Id("Password");
+        private By joinWithMS = By.Id("Microsoft");
+        private By signup = By.Id("signup");
+        private By createMSAccountTitle = By.XPath("//*[text()=\"Create account\"]");
+        private By downloadForWindowsLink = By.XPath("//a[text()=\"Download for Windows\"]");
+        private By community2017 = By.XPath("//a[text()=\"Community 2017\"]");
         #endregion
-#region NavigationBarMethods
+        #region NavigationBarMethods
         public void OpenHomePageByURL()
         {
             NavigateToURL(homePageURL);
@@ -43,17 +52,20 @@ namespace asp.netAutomationFramework.PageObjects
             NavigateByLink(getStartedLink);
             return new GetStartedPage(driver);
         }
-        public void GoToLearnLinkPage()
+        public LearnPage GoToLearnLinkPage()
         {
-            driver.FindElement(learnLink).Click();
+            NavigateByLink(learnLink);
+            return new LearnPage(driver);
         }
-        public void GoToHostingLinkPage()
+        public HostingPage GoToHostingLinkPage()
         {
-            driver.FindElement(hostingLink).Click();
+            NavigateByLink(homeLink);
+            return new HostingPage(driver);
         }
-        public void GoToDownloadsPage()
+        public DownloadsPage GoToDownloadsPage()
         {
-            driver.FindElement(downloadsLink).Click();
+            NavigateByLink(downloadsLink);
+            return new DownloadsPage(driver);
         }
         public void CloseWebDriver()
         {
@@ -63,6 +75,33 @@ namespace asp.netAutomationFramework.PageObjects
         public void VerifyTitle(string pageTitle)
         {
             Assert.AreEqual(driver.Title, pageTitle);
+        }
+
+        public void ClickOnWebElement(By element)
+        {
+            ClickOnElement(element);
+        }
+
+        public void VerifyWebElement(By element)
+        {
+            Assert.IsTrue(driver.FindElement(element).Displayed);
+        }
+
+        // Method implementation is in progress 
+        public void SignUpViaMicrosoft()
+        {
+            ClickOnElement(signUpLink);
+            ClickOnElement(joinMenuItem);
+            ClickOnElement(joinWithMS);
+            ClickOnElement(signup);
+            VerifyWebElement(createMSAccountTitle);
+        }
+
+        public void DownloadMSVisualStudio2017()
+        {
+            MoveMouseOverElement(downloadForWindowsLink);
+            ClickOnElement(community2017);
+
         }
         #endregion
 

@@ -12,13 +12,21 @@ namespace asp.netAutomationFramework.PageObjects
         }
 
         //Declare Home page locators 
-        By getStartedLink = By.XPath("//a[text()=\"Get Started with ASP.NET\"]");
-        By learnMoreLink = By.XPath("//a[text()=\"Learn more\"]");
+        private By getStartedLink = By.XPath("//a[text()=\"Get Started with ASP.NET\"]");
+        private By learnMoreLink = By.XPath("//a[text()=\"Learn more\"]");
+        private By downloadCorelink = By.XPath("//a[@data-product=\".NET Core\"]");
+        private string getStartedPageTitle = "Get Started with ASP.NET | The ASP.NET Site";
+        
         //Declare Home page methods
 
-        public void VerifyTitle()
+        public void VerifyGetStartedTitle()
         {
-            Assert.AreEqual(driver.Title, "Get Started with ASP.NET | The ASP.NET Site");
+            VerifyTitle(getStartedPageTitle);
+        }
+
+        public void VerifyIfDisplayedDownnloadCoreLink()
+        {
+            VerifyWebElement(downloadCorelink);
         }
 
     }

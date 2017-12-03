@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Interactions;
 
 namespace asp.netAutomationFramework.WebDriverAPIWrapper
 {
@@ -35,6 +36,16 @@ namespace asp.netAutomationFramework.WebDriverAPIWrapper
         public void NavigateByLink(By link)
         {
             driver.FindElement(link).Click();
+        }
+
+        public void SendKeys(string keys, By element)
+        { driver.FindElement(element).SendKeys(keys); }
+
+        public void MoveMouseOverElement(By element)
+        {
+            Actions action = new Actions(driver);
+            IWebElement  elem = driver.FindElement(element);
+            action.MoveToElement(elem).Perform();
         }
 
     }
