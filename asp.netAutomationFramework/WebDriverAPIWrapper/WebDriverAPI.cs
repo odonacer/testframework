@@ -1,6 +1,10 @@
-﻿using OpenQA.Selenium;
+﻿using NUnit.Framework;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;
+using System;
+using System.IO;
+using System.Linq;
 
 namespace asp.netAutomationFramework.WebDriverAPIWrapper
 {
@@ -14,7 +18,11 @@ namespace asp.netAutomationFramework.WebDriverAPIWrapper
 
         public IWebDriver StartChromeDriver()
         {
-            driver = new ChromeDriver();
+            ChromeOptions chromeOptions = new ChromeOptions();
+            
+            chromeOptions.AddUserProfilePreference("safebrowsing.enabled", true);
+            chromeOptions.AddArguments("--start-maximized");
+            driver = new ChromeDriver(chromeOptions);
             return driver;
         }
 
@@ -39,13 +47,31 @@ namespace asp.netAutomationFramework.WebDriverAPIWrapper
         }
 
         public void SendKeys(string keys, By element)
+
+
+
+
+
         { driver.FindElement(element).SendKeys(keys); }
 
-        public void MoveMouseOverElement(By element)
+        public void DownloadFile()
         {
-            Actions action = new Actions(driver);
-            IWebElement  elem = driver.FindElement(element);
-            action.MoveToElement(elem).Perform();
+            
+            string userPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            string downloadPath = Path.Combine(userPath, "Downloads");
+            //Actions action = new Actions(driver);
+            //IWebElement  elem = driver.FindElement(element);
+            //action.MoveToElement(elem).Perform();
+            
+            ChromeOptions chromeOptions = new ChromeOptions();
+            chromeOptions.AddUserProfilePreference("download.default_directory", downloadPath);
+            chromeOptions.AddUserProfilePreference("disable-popup-blocking", "true");
+            //driver = new ChromeDriver(chromeOptions);
+            DirectoryInfo dirInfo = new DirectoryInfo(downloadPath);
+            dirInfo = new DirectoryInfo(downloadPath);
+            int directoryFiles = dirInfo.EnumerateFiles().Count();
+            int currentFiles = dirInfo.EnumerateFiles().Count();
+            Assert.Greater(currentFiles, directoryFiles);
         }
 
     }

@@ -2,6 +2,8 @@
 using NUnit.Framework;
 using asp.netAutomationFramework.WebDriverAPIWrapper;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
+using System;
 
 namespace asp.netAutomationFramework.PageObjects
 {
@@ -79,6 +81,8 @@ namespace asp.netAutomationFramework.PageObjects
 
         public void ClickOnWebElement(By element)
         {
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+
             ClickOnElement(element);
         }
 
@@ -97,12 +101,7 @@ namespace asp.netAutomationFramework.PageObjects
             VerifyWebElement(createMSAccountTitle);
         }
 
-        public void DownloadMSVisualStudio2017()
-        {
-            MoveMouseOverElement(downloadForWindowsLink);
-            ClickOnElement(community2017);
-
-        }
+        
         #endregion
 
         #region SearchMethods

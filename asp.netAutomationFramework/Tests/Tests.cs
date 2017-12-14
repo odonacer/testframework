@@ -33,6 +33,15 @@ namespace asp.netAutomationFramework
             GetStartedPage getStartedPage = new GetStartedPage(driver);
         }
 
+        [Test]
+        public void DownloadFile()
+        {
+            basePage.OpenHomePageByURL();
+            HomePage homePage = new HomePage(driver);
+            homePage.DownloadVS();
+            
+        }
+
         [TearDown]
         public void CloseWebdriver()
         {
