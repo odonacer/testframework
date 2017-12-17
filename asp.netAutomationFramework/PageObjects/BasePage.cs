@@ -1,22 +1,21 @@
 ﻿using OpenQA.Selenium;
 using NUnit.Framework;
 using asp.netAutomationFramework.WebDriverAPIWrapper;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
+using System;
 
 namespace asp.netAutomationFramework.PageObjects
 {
-    class BasePage
-    {
-        public BasePage()
-        {
-
-        }
-        public BasePage(IWebDriver driver)
-        { this.driver = driver; }
+    class BasePage : WebDriverAPI
+    {    
         private IWebDriver driver;
-        
+        public BasePage(IWebDriver driver):base(driver)
+        {
+            this.driver = driver;
+        }
 
-        WebDriverAPI baseAPI = new WebDriverAPI();
-
+        private string homePageURL = "http://asp.net";
 #region NavigationBarVars
         By homeLink = By.LinkText("Home");        
         By getStartedLink = By.LinkText("Get Started");
@@ -28,46 +27,91 @@ namespace asp.netAutomationFramework.PageObjects
         By searchField = By.ClassName("search-input");
         By submitSearchRequest = By.ClassName("search-submit");
         By searchResultsForText = By.Id("search-title");
+        By signUpLink = By.XPath("//div[contains(@class, 'nav-user logged-out')]");
+        By joinMenuItem = By.XPath("//a[text()=\"Join\"]");
+        private By usernameField = By.Id("Username");
+        private By passwordField = By.Id("Password");
+        private By joinWithMS = By.Id("Microsoft");
+        private By signup = By.Id("signup");
+        private By createMSAccountTitle = By.XPath("//*[text()=\"Create account\"]");
+        private By downloadForWindowsLink = By.XPath("//a[text()=\"Download for Windows\"]");
+        private By community2017 = By.XPath("//a[text()=\"Community 2017\"]");
         #endregion
-#region NavigationBarMethods
-        public void GoToHomePage()
+        #region NavigationBarMethods
+        public void OpenHomePageByURL()
         {
-            baseAPI.NavigateByLinkElement(homeLink);
+            NavigateToURL(homePageURL);
         }
-        public void GoToGetStartedPage()
-        {
-            baseAPI.NavigateByLinkElement(getStartedLink);
-        }
-        public void GoToLearnLinkPage()
-        {
-            baseAPI.NavigateByLinkElement(learnLink);
-             }
-        public void GoToHostingLinkPage()
-        {
-            baseAPI.NavigateByLinkElement(hostingLink);
-             }
-        public void GoToDownloadsPage()
-        {
-            baseAPI.NavigateByLinkElement(downloadsLink);
-            }
 
-        public void GoToDownloads()
+        public HomePage ClickOnHomeLink()
         {
-            baseAPI.NavigateByLinkElement(downloadsLink);
-             }
-        //public HomePage OpenHomePage()
-        //{
-        //    baseAPI.NavigateByURL(basePageURL);
-        //    return new HomePage(driver);
-        //}
+            NavigateByLink(homeLink);
+            return new HomePage(driver);
+        }
+
+        public GetStartedPage ClickOnGetStartedLink()
+        {
+            NavigateByLink(getStartedLink);
+            return new GetStartedPage(driver);
+        }
+        public LearnPage GoToLearnLinkPage()
+        {
+            NavigateByLink(learnLink);
+            return new LearnPage(driver);
+        }
+        public HostingPage GoToHostingLinkPage()
+        {
+            NavigateByLink(homeLink);
+            return new HostingPage(driver);
+        }
+        public DownloadsPage GoToDownloadsPage()
+        {
+            NavigateByLink(downloadsLink);
+            return new DownloadsPage(driver);
+        }
+        public void CloseWebDriver()
+        {
+            driver.Close();
+        }
+
+        public void VerifyTitle(string pageTitle)
+        {
+            Assert.AreEqual(driver.Title, pageTitle);
+        }
+
+        public void ClickOnWebElement(By element)
+        {
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+
+            ClickOnElement(element);
+        }
+
+        public void VerifyWebElement(By element)
+        {
+            Assert.IsTrue(driver.FindElement(element).Displayed);
+        }
+
+        public void VerifyCreateMSAccount()
+        {
+            Assert.AreEqual(driver.FindElement(createMSAccountTitle).Text, "Create account");
+        }
+
+        // Method implementation is in progress 
+        public void SignUpViaMicrosoft()
+        {
+            ClickOnElement(signUpLink);
+            ClickOnElement(joinMenuItem);
+            ClickOnElement(joinWithMS);
+            ClickOnElement(signup);            
+        }        
         #endregion
-#region SearchMethods
+        #region SearchMethods
         public BasePage PerformSearch(string searchKeyword)
         {
             driver.FindElement(searchField).SendKeys(searchKeyword);
             driver.FindElement(submitSearchRequest).Click();
             Assert.AreEqual(driver.FindElement(searchResultsForText), searchKeyword);
-            return new BasePage(driver);
+            return this;
         }
 #endregion
     }
