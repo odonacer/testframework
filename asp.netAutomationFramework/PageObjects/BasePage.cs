@@ -27,7 +27,7 @@ namespace asp.netAutomationFramework.PageObjects
         By searchField = By.ClassName("search-input");
         By submitSearchRequest = By.ClassName("search-submit");
         By searchResultsForText = By.Id("search-title");
-        By signUpLink = By.ClassName("nav-user logged-out");
+        By signUpLink = By.XPath("//div[contains(@class, 'nav-user logged-out')]");
         By joinMenuItem = By.XPath("//a[text()=\"Join\"]");
         private By usernameField = By.Id("Username");
         private By passwordField = By.Id("Password");
@@ -91,19 +91,20 @@ namespace asp.netAutomationFramework.PageObjects
             Assert.IsTrue(driver.FindElement(element).Displayed);
         }
 
+        public void VerifyCreateMSAccount()
+        {
+            Assert.AreEqual(driver.FindElement(createMSAccountTitle).Text, "Create account");
+        }
+
         // Method implementation is in progress 
         public void SignUpViaMicrosoft()
         {
             ClickOnElement(signUpLink);
             ClickOnElement(joinMenuItem);
             ClickOnElement(joinWithMS);
-            ClickOnElement(signup);
-            VerifyWebElement(createMSAccountTitle);
-        }
-
-        
+            ClickOnElement(signup);            
+        }        
         #endregion
-
         #region SearchMethods
         public BasePage PerformSearch(string searchKeyword)
         {

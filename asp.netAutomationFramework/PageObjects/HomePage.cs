@@ -6,6 +6,8 @@ using System;
 using System.IO;
 using System.Linq;
 using OpenQA.Selenium.Support.UI;
+using OpenQA.Selenium.Interactions;
+using System.Threading;
 
 namespace asp.netAutomationFramework.PageObjects
 {
@@ -19,7 +21,9 @@ namespace asp.netAutomationFramework.PageObjects
         private string homePageTitle = "ASP.NET | The ASP.NET Site";
         private string downloadCorePageTitle = ".NET and C# - Get Started in 10 Minutes";
         private By freeCoursesLink = By.ClassName("free-courses");
-
+        private By downloadVSForWindows = By.XPath("//a[text()=\"Download for Windows\"]");
+        private By downloadComunity2017 = By.XPath("//a[text()=\"Community 2017\"]");
+        
         public HomePage(IWebDriver driver):base(driver)
         {
             this.driver = driver;
@@ -39,7 +43,6 @@ namespace asp.netAutomationFramework.PageObjects
         public void ClickOnCoreDownloadLink()
         {
             ClickOnWebElement(downloadCorelink);
-
         }
 
         public void VerifyFreeCorsesLinkPresense()
@@ -57,30 +60,24 @@ namespace asp.netAutomationFramework.PageObjects
             VerifyWebElement(downloadVSlink);
         }
 
-        public void DownloadVS()
+        public void DownloadVSComunity2017()
         {
             ClickOnElement(downloadVSlink);
-            
-            
-
-                string userPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-                string downloadPath = Path.Combine(userPath, "Downloads");
-            WebDriverWait wait = new WebDriverWait(driver, new TimeSpan(10));
-
-
-                ChromeOptions chromeOptions = new ChromeOptions();
-                chromeOptions.AddUserProfilePreference("download.default_directory", downloadPath);
-                DirectoryInfo dirInfo = new DirectoryInfo(downloadPath);
-                dirInfo = new DirectoryInfo(downloadPath);
-                int directoryFiles = dirInfo.EnumerateFiles().Count();
-
-            ClickOnElement(downloadVS);
-           
+            string userPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            string downloadPath = Path.Combine(userPath, "Downloads");
+            ChromeOptions chromeOptions = new ChromeOptions();
+            chromeOptions.AddUserProfilePreference("download.default_directory", downloadPath);
+            DirectoryInfo dirInfo = new DirectoryInfo(downloadPath);
+            dirInfo = new DirectoryInfo(downloadPath);
+            int directoryFiles = dirInfo.EnumerateFiles().Count();
+            Actions action = new Actions(driver);
+            IWebElement elem = driver.FindElement(downloadVSForWindows);
+            action.MoveToElement(elem).Perform();
+            ClickOnElement(downloadComunity2017);
+            Thread.Sleep(10000);
             dirInfo = new DirectoryInfo(downloadPath);
             int currentFiles = dirInfo.EnumerateFiles().Count();
-                Assert.Greater(currentFiles, directoryFiles);
-            
-
+            Assert.Greater(currentFiles, directoryFiles);
         }
     }
 }

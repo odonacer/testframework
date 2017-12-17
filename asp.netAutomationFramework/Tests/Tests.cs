@@ -8,7 +8,6 @@ namespace asp.netAutomationFramework
 {
     public class Tests
     {
-        //HomePage homePage = new HomePage();
         BasePage basePage;
         IWebDriver driver;
         WebDriverAPI webAPI;
@@ -16,21 +15,19 @@ namespace asp.netAutomationFramework
         [SetUp]
         public void SetUp()
         {
-            //homePage.StartChromeDriver();
-           basePage = new BasePage(driver);
-            driver = basePage.StartChromeDriver();
-            
-            
+            basePage = new BasePage(driver);
+            driver = basePage.StartChromeDriver();           
         }
 
         [Test]
-        public void GoToHomePage()
+        public void GoFromHomePageToGetStartedPage() //test shows basic page navigaions along with page's title verification
         {
             basePage.OpenHomePageByURL();
             HomePage homePage = new HomePage(driver);
             homePage.VerifyHomePageTitle();
             basePage.ClickOnGetStartedLink();
             GetStartedPage getStartedPage = new GetStartedPage(driver);
+            getStartedPage.VerifyIfDisplayedDownnloadCoreLink();
         }
 
         [Test]
@@ -38,16 +35,25 @@ namespace asp.netAutomationFramework
         {
             basePage.OpenHomePageByURL();
             HomePage homePage = new HomePage(driver);
-            homePage.DownloadVS();
+            homePage.DownloadVSComunity2017();
             
         }
 
+        [Test]
+        public void SignUp()
+        {
+            basePage = new BasePage(driver);
+            basePage.OpenHomePageByURL();
+            basePage.SignUpViaMicrosoft();
+            basePage.VerifyCreateMSAccount();
+           
+        }
+                
         [TearDown]
         public void CloseWebdriver()
         {
             webAPI = new WebDriverAPI(driver);
             webAPI.QuitWebBrowser();
-            //basePage.CloseWebDriver();
         }
     }
 }

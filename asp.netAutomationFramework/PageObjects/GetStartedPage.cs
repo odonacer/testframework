@@ -18,7 +18,6 @@ namespace asp.netAutomationFramework.PageObjects
         private string getStartedPageTitle = "Get Started with ASP.NET | The ASP.NET Site";
         
         //Declare Home page methods
-
         public void VerifyGetStartedTitle()
         {
             VerifyTitle(getStartedPageTitle);
