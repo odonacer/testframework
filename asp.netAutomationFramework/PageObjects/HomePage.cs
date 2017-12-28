@@ -24,20 +24,20 @@ namespace asp.netAutomationFramework.PageObjects
         private By downloadVSForWindows = By.XPath("//a[text()=\"Download for Windows\"]");
         private By downloadComunity2017 = By.XPath("//a[text()=\"Community 2017\"]");
         
-        public HomePage(IWebDriver driver):base(driver)
+        public HomePage() :base()
         {
-            this.driver = driver;
+            
         }
 
-        public HomePage OpenHomePage()
+        public void OpenHomePage()
         {
             OpenHomePageByURL();
-            return new HomePage(driver);
+           // return new HomePage();
         }
 
         public void VerifyHomePageTitle()
         {
-            VerifyTitle(homePageTitle);
+            BasePage.VerifyTitle(homePageTitle);
         }
 
         public void ClickOnCoreDownloadLink()
@@ -62,7 +62,7 @@ namespace asp.netAutomationFramework.PageObjects
 
         public void DownloadVSComunity2017()
         {
-            ClickOnElement(downloadVSlink);
+            WebDriverAPI.ClickOnElement(downloadVSlink);
             string userPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             string downloadPath = Path.Combine(userPath, "Downloads");
             ChromeOptions chromeOptions = new ChromeOptions();
@@ -73,7 +73,7 @@ namespace asp.netAutomationFramework.PageObjects
             Actions action = new Actions(driver);
             IWebElement elem = driver.FindElement(downloadVSForWindows);
             action.MoveToElement(elem).Perform();
-            ClickOnElement(downloadComunity2017);
+            WebDriverAPI.ClickOnElement(downloadComunity2017);
             Thread.Sleep(10000);
             dirInfo = new DirectoryInfo(downloadPath);
             int currentFiles = dirInfo.EnumerateFiles().Count();

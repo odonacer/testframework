@@ -6,7 +6,7 @@ namespace asp.netAutomationFramework.PageObjects
     {
         
         private IWebDriver driver;
-        public GetStartedPage(IWebDriver driver):base(driver)
+        public GetStartedPage():base()
         {
            this.driver = driver;
         }

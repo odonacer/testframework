@@ -7,13 +7,14 @@ using System;
 
 namespace asp.netAutomationFramework.PageObjects
 {
-    class BasePage : WebDriverAPI
+   abstract class BasePage : WebDriverAPI
     {    
-        private IWebDriver driver;
-        public BasePage(IWebDriver driver):base(driver)
+        static IWebDriver driver;
+        public BasePage():base()
         {
-            this.driver = driver;
+            //driver = new ChromeDriver();
         }
+       
 
         private string homePageURL = "http://asp.net";
 #region NavigationBarVars
@@ -31,7 +32,7 @@ namespace asp.netAutomationFramework.PageObjects
         By joinMenuItem = By.XPath("//a[text()=\"Join\"]");
         private By usernameField = By.Id("Username");
         private By passwordField = By.Id("Password");
-        private By joinWithMS = By.Id("Microsoft");
+        
         private By signup = By.Id("signup");
         private By createMSAccountTitle = By.XPath("//*[text()=\"Create account\"]");
         private By downloadForWindowsLink = By.XPath("//a[text()=\"Download for Windows\"]");
@@ -40,41 +41,41 @@ namespace asp.netAutomationFramework.PageObjects
         #region NavigationBarMethods
         public void OpenHomePageByURL()
         {
-            NavigateToURL(homePageURL);
+           WebDriverAPI.NavigateToURL(homePageURL);
         }
 
-        public HomePage ClickOnHomeLink()
+        public void ClickOnHomeLink()
         {
-            NavigateByLink(homeLink);
-            return new HomePage(driver);
+            WebDriverAPI.NavigateByLink(homeLink);
+            //return new HomePage();
         }
 
         public GetStartedPage ClickOnGetStartedLink()
         {
-            NavigateByLink(getStartedLink);
-            return new GetStartedPage(driver);
+            WebDriverAPI.NavigateByLink(getStartedLink);
+            return new GetStartedPage();
         }
         public LearnPage GoToLearnLinkPage()
         {
-            NavigateByLink(learnLink);
-            return new LearnPage(driver);
+            WebDriverAPI.NavigateByLink(learnLink);
+            return new LearnPage();
         }
         public HostingPage GoToHostingLinkPage()
         {
-            NavigateByLink(homeLink);
-            return new HostingPage(driver);
+            WebDriverAPI.NavigateByLink(homeLink);
+            return new HostingPage();
         }
         public DownloadsPage GoToDownloadsPage()
         {
-            NavigateByLink(downloadsLink);
-            return new DownloadsPage(driver);
+            WebDriverAPI.NavigateByLink(downloadsLink);
+            return new DownloadsPage();
         }
         public void CloseWebDriver()
         {
             driver.Close();
         }
 
-        public void VerifyTitle(string pageTitle)
+        public static void VerifyTitle(string pageTitle)
         {
             Assert.AreEqual(driver.Title, pageTitle);
         }
@@ -83,7 +84,7 @@ namespace asp.netAutomationFramework.PageObjects
         {
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
 
-            ClickOnElement(element);
+            WebDriverAPI.ClickOnElement(element);
         }
 
         public void VerifyWebElement(By element)
@@ -96,13 +97,10 @@ namespace asp.netAutomationFramework.PageObjects
             Assert.AreEqual(driver.FindElement(createMSAccountTitle).Text, "Create account");
         }
 
-        // Method implementation is in progress 
-        public void SignUpViaMicrosoft()
+        public SignUpPage SignUpViaMicrosoft()
         {
-            ClickOnElement(signUpLink);
-            ClickOnElement(joinMenuItem);
-            ClickOnElement(joinWithMS);
-            ClickOnElement(signup);            
+            ClickOnWebElement(joinMenuItem);
+            return new SignUpPage();
         }        
         #endregion
         #region SearchMethods
