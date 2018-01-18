@@ -10,10 +10,9 @@ namespace asp.netAutomationFramework.WebDriverAPIWrapper
 {
     public  class WebDriverAPI
     {        
-        private IWebDriver driver;
-        public WebDriverAPI(IWebDriver driver)
+        static IWebDriver driver;
+         static WebDriverAPI()
         {
-            this.driver = driver;
         }
 
         public IWebDriver StartChromeDriver()
@@ -31,41 +30,25 @@ namespace asp.netAutomationFramework.WebDriverAPIWrapper
             driver.Quit();
         }
 
-        public void ClickOnElement(By element)
+        public static void ClickOnElement(By element)
         {
             driver.FindElement(element).Click();
         }
 
-        public void NavigateToURL(string url)
+        public static void NavigateToURL(string url)
         {
             driver.Navigate().GoToUrl(url);
         }
 
-        public void NavigateByLink(By link)
+        public static void NavigateByLink(By link)
         {
             driver.FindElement(link).Click();
         }
 
-        public void SendKeys(string keys, By element)
+        public static void EnterText (string keys, By element)
         {
             driver.FindElement(element).SendKeys(keys);
         }
-
-        //public void DownloadFile()
-        //{            
-        //    string userPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-        //    string downloadPath = Path.Combine(userPath, "Downloads");         
-            
-        //    ChromeOptions chromeOptions = new ChromeOptions();
-        //    chromeOptions.AddUserProfilePreference("download.default_directory", downloadPath);
-        //    chromeOptions.AddUserProfilePreference("disable-popup-blocking", "true");
-        //    //driver = new ChromeDriver(chromeOptions);
-        //    DirectoryInfo dirInfo = new DirectoryInfo(downloadPath);
-        //    dirInfo = new DirectoryInfo(downloadPath);
-        //    int directoryFiles = dirInfo.EnumerateFiles().Count();
-        //    int currentFiles = dirInfo.EnumerateFiles().Count();
-        //    Assert.Greater(currentFiles, directoryFiles);
-        //}
 
     }
 } 

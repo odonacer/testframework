@@ -8,52 +8,42 @@ namespace asp.netAutomationFramework
 {
     public class Tests
     {
-        BasePage basePage;
-        IWebDriver driver;
-        WebDriverAPI webAPI;
+        HomePage homePage;
 
         [SetUp]
         public void SetUp()
         {
-            basePage = new BasePage(driver);
-            driver = basePage.StartChromeDriver();           
+            homePage = new HomePage();            
         }
 
         [Test]
         public void GoFromHomePageToGetStartedPage() //test shows basic page navigaions along with page's title verification
         {
-            basePage.OpenHomePageByURL();
-            HomePage homePage = new HomePage(driver);
+            homePage.OpenHomePage();     
             homePage.VerifyHomePageTitle();
-            basePage.ClickOnGetStartedLink();
-            GetStartedPage getStartedPage = new GetStartedPage(driver);
+            GetStartedPage getStartedPage = homePage.ClickOnGetStartedLink();
             getStartedPage.VerifyIfDisplayedDownnloadCoreLink();
         }
 
         [Test]
-        public void DownloadFile()
+        public void DownloadFile() //test for a file downloading - doesn't work right now for some reason
         {
-            basePage.OpenHomePageByURL();
-            HomePage homePage = new HomePage(driver);
-            homePage.DownloadVSComunity2017();
-            
+            homePage.OpenHomePage();
+            homePage.DownloadVSComunity2017();            
         }
 
         [Test]
-        public void SignUp()
+        public void SignUp() //signup test.
         {
-            basePage = new BasePage(driver);
-            basePage.OpenHomePageByURL();
-            basePage.SignUpViaMicrosoft();
-            basePage.VerifyCreateMSAccount();
-           
+            homePage.OpenHomePage();            
+            SignUpPage signUpPage = homePage.OpenSignUpPage();
+            signUpPage.SignUpUsinngMSAccount();           
         }
-                
+
         [TearDown]
         public void CloseWebdriver()
         {
-            webAPI = new WebDriverAPI(driver);
-            webAPI.QuitWebBrowser();
+            homePage.CloseWebDriver();
         }
     }
 }
