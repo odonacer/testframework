@@ -2,15 +2,8 @@
 using NUnit.Framework;
 namespace asp.netAutomationFramework.PageObjects
 {
-    class GetStartedPage : BasePage
+    class GetStartedPage
     {
-        
-        private IWebDriver driver;
-        public GetStartedPage():base()
-        {
-           this.driver = driver;
-        }
-
         //Declare Home page locators 
         private By getStartedLink = By.XPath("//a[text()=\"Get Started with ASP.NET\"]");
         private By learnMoreLink = By.XPath("//a[text()=\"Learn more\"]");
@@ -20,12 +13,12 @@ namespace asp.netAutomationFramework.PageObjects
         //Declare Home page methods
         public void VerifyGetStartedTitle()
         {
-            VerifyTitle(getStartedPageTitle);
+            BasePage.VerifyTitle(getStartedPageTitle);
         }
 
         public void VerifyIfDisplayedDownnloadCoreLink()
         {
-            VerifyWebElement(downloadCorelink);
+            BasePage.VerifyWebElement(downloadCorelink);
         }
 
     }

@@ -8,43 +8,36 @@ namespace asp.netAutomationFramework
 {
     public class Tests
     {
-
         HomePage homePage;
-        BasePage basePage;
-        IWebDriver driver;
 
         [SetUp]
         public void SetUp()
         {
-            homePage = new HomePage();
-            
+            homePage = new HomePage();            
         }
 
         [Test]
         public void GoFromHomePageToGetStartedPage() //test shows basic page navigaions along with page's title verification
         {
+            homePage.OpenHomePage();     
+            homePage.VerifyHomePageTitle();
+            GetStartedPage getStartedPage = homePage.ClickOnGetStartedLink();
+            getStartedPage.VerifyIfDisplayedDownnloadCoreLink();
+        }
+
+        [Test]
+        public void DownloadFile() //test for a file downloading - doesn't work right now for some reason
+        {
             homePage.OpenHomePage();
-            
-        homePage.VerifyHomePageTitle();
-            
-           // GetStartedPage getStartedPage = new GetStartedPage();
-           // getStartedPage.VerifyIfDisplayedDownnloadCoreLink();
+            homePage.DownloadVSComunity2017();            
         }
 
         [Test]
-        public void DownloadFile()
+        public void SignUp() //signup test.
         {
-            
-            HomePage homePage = new HomePage();
-            homePage.DownloadVSComunity2017();
-            
-        }
-
-        [Test]
-        public void SignUp()
-        {
-           
-           
+            homePage.OpenHomePage();            
+            SignUpPage signUpPage = homePage.OpenSignUpPage();
+            signUpPage.SignUpUsinngMSAccount();           
         }
 
         [TearDown]

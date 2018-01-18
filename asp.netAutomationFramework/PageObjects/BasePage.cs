@@ -7,32 +7,31 @@ using System;
 
 namespace asp.netAutomationFramework.PageObjects
 {
-   abstract class BasePage : WebDriverAPI
+    class BasePage
     {    
         static IWebDriver driver;
-        public BasePage():base()
+        public BasePage()
         {
-            //driver = new ChromeDriver();
+            WebDriverAPI api = new WebDriverAPI();
+            driver = api.StartChromeDriver();
         }
        
-
         private string homePageURL = "http://asp.net";
-#region NavigationBarVars
-        By homeLink = By.LinkText("Home");        
-        By getStartedLink = By.LinkText("Get Started");
-        By learnLink = By.LinkText("Learn");
-        By hostingLink = By.LinkText("Hosting");
-        By downloadsLink = By.LinkText("Downloads");
+        #region NavigationBarVars
+        private By homeLink = By.LinkText("Home");
+        private By getStartedLink = By.LinkText("Get Started");
+        private By learnLink = By.LinkText("Learn");
+        private By hostingLink = By.LinkText("Hosting");
+        private By downloadsLink = By.LinkText("Downloads");
         #endregion
-#region SearchVars  
-        By searchField = By.ClassName("search-input");
-        By submitSearchRequest = By.ClassName("search-submit");
-        By searchResultsForText = By.Id("search-title");
-        By signUpLink = By.XPath("//div[contains(@class, 'nav-user logged-out')]");
-        By joinMenuItem = By.XPath("//a[text()=\"Join\"]");
+        #region SearchVars  
+        private By searchField = By.ClassName("search-input");
+        private By submitSearchRequest = By.ClassName("search-submit");
+        private By searchResultsForText = By.Id("search-title");
+        private By signUpLink = By.XPath("//div[contains(@class, 'nav-user logged-out')]");
+        private By joinMenuItem = By.XPath("//a[text()=\"Join\"]");
         private By usernameField = By.Id("Username");
-        private By passwordField = By.Id("Password");
-        
+        private By passwordField = By.Id("Password");        
         private By signup = By.Id("signup");
         private By createMSAccountTitle = By.XPath("//*[text()=\"Create account\"]");
         private By downloadForWindowsLink = By.XPath("//a[text()=\"Download for Windows\"]");
@@ -41,13 +40,17 @@ namespace asp.netAutomationFramework.PageObjects
         #region NavigationBarMethods
         public void OpenHomePageByURL()
         {
-           WebDriverAPI.NavigateToURL(homePageURL);
+           WebDriverAPI.NavigateToURL(homePageURL);            
+        }
+
+        public void ClickOnSignUpLink()
+        {
+            WebDriverAPI.NavigateByLink(signUpLink);
         }
 
         public void ClickOnHomeLink()
         {
             WebDriverAPI.NavigateByLink(homeLink);
-            //return new HomePage();
         }
 
         public GetStartedPage ClickOnGetStartedLink()
@@ -80,15 +83,16 @@ namespace asp.netAutomationFramework.PageObjects
             Assert.AreEqual(driver.Title, pageTitle);
         }
 
-        public void ClickOnWebElement(By element)
+        public static void ClickOnWebElement(By element)
         {
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
 
             WebDriverAPI.ClickOnElement(element);
         }
 
-        public void VerifyWebElement(By element)
+        public static void VerifyWebElement(By element)
         {
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
             Assert.IsTrue(driver.FindElement(element).Displayed);
         }
 

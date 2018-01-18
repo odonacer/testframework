@@ -13,7 +13,6 @@ namespace asp.netAutomationFramework.WebDriverAPIWrapper
         static IWebDriver driver;
          static WebDriverAPI()
         {
-            driver = new ChromeDriver();
         }
 
         public IWebDriver StartChromeDriver()
@@ -50,8 +49,6 @@ namespace asp.netAutomationFramework.WebDriverAPIWrapper
         {
             driver.FindElement(element).SendKeys(keys);
         }
-
-        
 
     }
 } 

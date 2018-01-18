@@ -23,21 +23,26 @@ namespace asp.netAutomationFramework.PageObjects
         private By freeCoursesLink = By.ClassName("free-courses");
         private By downloadVSForWindows = By.XPath("//a[text()=\"Download for Windows\"]");
         private By downloadComunity2017 = By.XPath("//a[text()=\"Community 2017\"]");
-        
-        public HomePage() :base()
+
+        public SignUpPage OpenSignUpPage()
         {
-            
+            ClickOnSignUpLink();
+            return new SignUpPage();
+        }
+
+        public HomePage() :base()
+        {       
         }
 
         public void OpenHomePage()
         {
             OpenHomePageByURL();
-           // return new HomePage();
         }
 
         public void VerifyHomePageTitle()
         {
             BasePage.VerifyTitle(homePageTitle);
+            Console.WriteLine("Verify method worked!");
         }
 
         public void ClickOnCoreDownloadLink()
